@@ -1,2 +1,2 @@
 # recepi-app-api
-Recepi app API source code
+Recepi app API source code.
