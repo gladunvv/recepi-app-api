@@ -1,4 +1,4 @@
-import tempfile 
+import tempfile
 import os
 
 from PIL import Image
@@ -22,6 +22,7 @@ RECIPES_URL = reverse('recipe:recipe-list')
 def image_upload_url(recipe_id):
     """Return URL for recipe image upload"""
     return reverse('recipe:recipe-upload-image', args=[recipe_id])
+
 
 def detail_url(recipe_id):
     """Return recipe detail URL"""
@@ -95,7 +96,6 @@ class PrivateRecipeApiTest(TestCase):
         sample_recipe(user=user2)
         sample_recipe(user=self.user)
 
-
         res = self.client.get(RECIPES_URL)
 
         recipes = Recipe.objects.filter(user=self.user)
@@ -120,7 +120,7 @@ class PrivateRecipeApiTest(TestCase):
         """Test creating recipe"""
         payload = {
             'title': 'Chocolate cheesecake',
-            'time_minutes':30,
+            'time_minutes': 30,
             'price': 5.00
         }
         res = self.client.post(RECIPES_URL, payload)
@@ -136,8 +136,8 @@ class PrivateRecipeApiTest(TestCase):
         tag2 = sample_tag(user=self.user, name='Dessert')
         payload = {
             'title': 'Avokado lime cheesecake',
-            'tags':[tag1.id, tag2.id],
-            'time_minutes':60,
+            'tags': [tag1.id, tag2.id],
+            'time_minutes': 60,
             'price': 20.00
         }
         res = self.client.post(RECIPES_URL, payload)
@@ -154,7 +154,7 @@ class PrivateRecipeApiTest(TestCase):
         ingredient2 = sample_ingredient(user=self.user, name='Ginger')
         payload = {
             'title': 'Thai prawn red curry',
-            'ingredients':[ingredient1.id, ingredient2.id],
+            'ingredients': [ingredient1.id, ingredient2.id],
             'time_minutes': 20,
             'price': 7.00
         }
@@ -173,7 +173,7 @@ class PrivateRecipeApiTest(TestCase):
         recipe.tags.add(sample_tag(user=self.user))
         new_tag = sample_tag(user=self.user, name='Curry')
 
-        payload = {'title': 'Chicken tikka', 'tags':[new_tag.id]}
+        payload = {'title': 'Chicken tikka', 'tags': [new_tag.id]}
         url = detail_url(recipe.id)
         self.client.patch(url, payload)
 
@@ -225,7 +225,7 @@ class RecipeImageUploadTests(TestCase):
             img.save(ntf, format='JPEG')
             ntf.seek(0)
             res = self.client.post(url, {'image': ntf}, format='multipart')
-        
+
         self.recipe.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)

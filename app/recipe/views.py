@@ -76,11 +76,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
         elif self.action == 'upload_image':
             return serializers.RecipeImageSerializer
         return self.serializer_class
-    
+
     def perform_create(self, serializer):
         """Create a new recipe"""
         serializer.save(user=self.request.user)
-    
+
     @action(methods=['POST'], detail=True, url_path='upload-image')
     def upload_image(self, request, pk=None):
         """Upload an image to a recipe"""
@@ -99,5 +99,4 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return Response(
             serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
